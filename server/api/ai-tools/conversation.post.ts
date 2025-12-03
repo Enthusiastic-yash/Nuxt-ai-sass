@@ -12,10 +12,7 @@ export default defineEventHandler(async (event) =>{
     model: "gemini-2.0-flash",
    messages: [
         { role: "system", content: "You are a helpful assistant." },
-        {
-            role: "user",
-            content: message,
-        },
+        ...message
     ],
     temperature : 0.5,
     max_completion_tokens : 500
