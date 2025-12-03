@@ -2,17 +2,19 @@
     <u-container class="flex items-center justify-center sm:p-4">
         <UCard class="w-full max-w-md">
             <template #header>
-                <div class="text-center p-4">
-                    <h1 class="text-xl font-semibold pb-4">
+                <div class="p-4">
+                    <h1 class="text-xl font-semibold pb-4 text-center">
                         Create your account
                     </h1>
                     <div class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <UButton icon="mdi:google" color="neutral" class="justify-center" :loading="false"
-                                :disabled="false" variant="outline">Google</UButton>
+                                :disabled="false" variant="outline"
+                                @click="signIn.social({ provider: 'google', callbackURL: '/' })">Google</UButton>
 
                             <UButton icon="mdi:github" color="neutral" class="justify-center" :loading="false"
-                                :disabled="false" variant="outline">Github</UButton>
+                                :disabled="false" variant="outline"
+                                @click="signIn.social({ provider: 'github', callbackURL: '/' })">Github</UButton>
                         </div>
                         <USeparator label="or" />
                         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -75,8 +77,15 @@ const state = reactive<Partial<Schema>>({
     confirmPassword: ''
 })
 
+const { signUp, signIn } = useAuth()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(event.data)
+    const { error } = await signUp.email({
+        name: event.data.name,
+        email: event.data.email,
+        password: event.data.password,
+        callbackURL: '/dashboard'
+    })
+    console.log(error);
 }
 
 

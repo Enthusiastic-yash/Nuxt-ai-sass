@@ -9,10 +9,14 @@
                     <div class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <UButton icon="mdi:google" color="neutral" class="justify-center" :loading="false"
-                                :disabled="false" variant="outline">Google</UButton>
+                                :disabled="false" variant="outline"
+                                @click="signIn.social({ provider: 'google', callbackURL: '/' })">Google</UButton>
 
                             <UButton icon="mdi:github" color="neutral" class="justify-center" :loading="false"
-                                :disabled="false" variant="outline">Github</UButton>
+                                :disabled="false" variant="outline"
+                                @click="signIn.social({ provider: 'github', callbackURL: '/' })">
+                                Github
+                            </UButton>
                         </div>
                         <USeparator label="or" />
                         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -61,8 +65,14 @@ const state = reactive<Partial<Schema>>({
     password: '',
 })
 
+const { signIn } = useAuth()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(event.data)
+    const { error } = await signIn.email({
+        email: event.data.email,
+        password: event.data.password,
+        callbackURL: '/dashboard'
+    })
+    console.log(error);
 }
 
 
