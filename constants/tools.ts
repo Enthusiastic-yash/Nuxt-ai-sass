@@ -3,7 +3,6 @@ export const sideBarRoutes : NavigationMenuItem[][] = [[
     {
   label: 'Conversation',
   icon: 'i-lucide-message-square-text',
-  active: true,
   to : '/dashboard/conversation'
 }, {
   label: 'Code Generation',
@@ -17,7 +16,7 @@ export const sideBarRoutes : NavigationMenuItem[][] = [[
  {
   label: 'Blog Title Generator',
   icon: 'i-lucide-hash',
-   to : '/dashboard/generator-blog-title'
+   to : '/dashboard/generate-blog-title'
 },
  {
   label: 'Background Removal',

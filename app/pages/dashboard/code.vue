@@ -1,8 +1,7 @@
 <template>
     <div>
         <UContainer class="h-[calc(100dvh - 88px)] flex flex-col py-4">
-            <PageHeading title='conversation'
-                description="Engage in natural, intelligent conversation with AI for brainstorming , questions and casual chat">
+            <PageHeading title='Code Generation' description="Generate code using descriptive text">
             </PageHeading>
             <UAlert v-if="error" color="error" variant="subtle" :title="error?.statusCode + ''"
                 :description="error?.statusMessage + ''" class="mb-2" close>
@@ -63,7 +62,8 @@ import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { FetchError } from 'ofetch'
 
-const { copiedId, copy } = useClipboard()
+const { copy, copiedId } = useClipboard()
+
 definePageMeta({
     layout: 'dashboard'
 })
@@ -87,7 +87,7 @@ const sendMessage = async (event: FormSubmitEvent<Schema>) => {
             content: event.data.userPrompt.trim()
         })
 
-        const data = await $fetch('/api/ai-tools/conversation', {
+        const data = await $fetch('/api/ai-tools/code-post', {
             method: 'POST',
             body: {
                 message: messages.value
@@ -115,6 +115,7 @@ type Message = {
 }
 
 const messages = ref<Message[]>([])
+
 </script>
 
 <style scoped></style>

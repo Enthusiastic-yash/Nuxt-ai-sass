@@ -12,10 +12,11 @@ export default defineEventHandler(async (event) =>{
     model: "gemini-2.0-flash",
     messages: [
         { role: "system", content: "You are a code generator. you must have to answer only in markdown code snippets." },
-        {
-            role: 'user',
-            content : message
-        }
+        // {
+        //     role: 'user',
+        //     content : message
+        // }
+        ...message
     ],
     temperature : 0.5
 
