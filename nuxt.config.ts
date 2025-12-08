@@ -17,6 +17,10 @@ export default defineNuxtConfig({
   googleClientId:process.env.NUXT_GOOGLE_CLIENT_ID,
   googleClientSecret:process.env.NUXT_GOOGLE_CLIENT_SECRET,
   geminiApi:process.env.NUXT_GEMINI_API,
+  cloudinaryCloudName:process.env.NUXT_CLOUDINARY_NAME,
+  cloudinaryApiKey:process.env.NUXT_CLOUDINARY_API_KEY,
+  cloudinaryApiSecret:process.env.NUXT_CLOUDINARY_API_SECRET,
+
     public:{
       appEnv : process.env.NUXT_PUBLIC_APP_ENV
     }
