@@ -1,9 +1,7 @@
-import { requireAuth } from "~~/server/services/better-auth";
 import { openai } from "~~/server/utils/openai";
 import { extractText, getDocumentProxy } from "unpdf";
 
 export default defineEventHandler(async (event) =>{
-  await requireAuth(event)
   const formData = await readFormData(event)
   const file = formData.get('resume') as File
     if(!file){

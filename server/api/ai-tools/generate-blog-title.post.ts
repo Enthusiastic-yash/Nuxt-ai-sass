@@ -1,8 +1,7 @@
-import { requireAuth } from "~~/server/services/better-auth";
 import { openai } from "~~/server/utils/openai";
 
 export default defineEventHandler(async (event) =>{
-    await requireAuth(event)
+
     const { blogTitle , blogCategory }  = await readBody(event)
     if(!(blogTitle && blogCategory)){
         throw createError({
