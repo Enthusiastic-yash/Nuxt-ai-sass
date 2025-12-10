@@ -1,6 +1,8 @@
+import { requireAuth } from "~~/server/services/better-auth";
 import { openai } from "~~/server/utils/openai";
 
 export default defineEventHandler(async (event) =>{
+    await requireAuth(event)
     const { articleTitle , articleLength }  = await readBody(event)
     if(!articleTitle){
         throw createError({
@@ -10,7 +12,7 @@ export default defineEventHandler(async (event) =>{
     }
     const prompt = `Write an article on ${articleTitle} with in given length ${articleLength ? articleLength : 500 }`
     const response = await openai.chat.completions.create({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash",
    messages: [
         {
             role: "user",

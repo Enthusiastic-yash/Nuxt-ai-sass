@@ -1,8 +1,11 @@
 import OpenAI from "openai";
-
-const {geminiApi} = useRuntimeConfig()
-export const openai = new OpenAI({
-    apiKey: geminiApi,
+const runtimeConfig = useRuntimeConfig();
+export const  openai = new OpenAI({
+    apiKey: runtimeConfig.geminiApi,
     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
+
+
+
+
 

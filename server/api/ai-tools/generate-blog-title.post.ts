@@ -1,6 +1,8 @@
+import { requireAuth } from "~~/server/services/better-auth";
 import { openai } from "~~/server/utils/openai";
 
 export default defineEventHandler(async (event) =>{
+    await requireAuth(event)
     const { blogTitle , blogCategory }  = await readBody(event)
     if(!(blogTitle && blogCategory)){
         throw createError({
@@ -10,7 +12,7 @@ export default defineEventHandler(async (event) =>{
     }
     const prompt = `Generate a blog title for the keywords  ${blogTitle} with in given category ${blogCategory}`
     const response = await openai.chat.completions.create({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash",
    messages: [
         {
             role: "user",

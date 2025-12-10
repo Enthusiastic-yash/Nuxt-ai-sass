@@ -8,7 +8,7 @@
                 :description="error?.statusMessage + ''" class="mb-2" close>
 
             </UAlert>
-            <div class="py-4 w-full max-w-full">
+            <div class="py-4 w-full max-w-full flex flex-col xl:flex-row xl:justify-evenly gap-4">
                 <div class="flex flex-wrap gap-5">
                     <UCard>
                         <UForm :schema="schema" :state="state" class="space-y-4 w-96" @submit="onSubmit">
@@ -20,14 +20,15 @@
                         </UForm>
                     </UCard>
                 </div>
-                <UCard :ui="{ body: 'p-3 sm:p-3 h-full' }" class="flex-1 max-w-[300px] mt-4 relative group">
+                <UCard v-if="mappedImageUrl && !isLoading" :ui="{ body: 'p-3 sm:p-3 h-full' }"
+                    class="flex-1 max-w-[300px]  relative group">
                     <div v-if="mappedImageUrl" class="h-full">
                         <NuxtImg :src="mappedImageUrl" />
                     </div>
-                    <div v-else-if="isLoading && !mappedImageUrl" class="flex flex-col justify-center items-center">
-                        Removing backgorund....
-                    </div>
                 </UCard>
+                <div v-if="isLoading" class="flex items-start space-x-2">
+                    <USkeleton class="h-10 w-md rounded-sm" />
+                </div>
             </div>
         </UContainer>
     </div>
