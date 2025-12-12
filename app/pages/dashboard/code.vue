@@ -99,6 +99,7 @@ const sendMessage = async (event: FormSubmitEvent<Schema>) => {
                 role: 'system',
                 content: data
             })
+            await refreshNuxtData('userData')
             state.userPrompt = ""
         }
     } catch (e) {

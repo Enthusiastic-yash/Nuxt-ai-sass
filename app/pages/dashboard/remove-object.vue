@@ -124,6 +124,7 @@ const onSubmit = async (event: FormSubmitEvent<schema>) => {
         if (data) {
             mappedImageUrl.value = data
         }
+        await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
         error.value = getError(err)

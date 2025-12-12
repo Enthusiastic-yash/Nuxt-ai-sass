@@ -1,6 +1,7 @@
 import type { UploadApiResponse , UploadApiErrorResponse  } from 'cloudinary'
 import { effect } from 'vue'
 // import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary'
+import { incrementApiLimit } from "~~/server/services/user-api-limit";
 import { connectCloudinary } from '~~/server/utils/cloudinary'
 
 export default defineEventHandler(async (event) => {
@@ -44,5 +45,6 @@ export default defineEventHandler(async (event) => {
        
     resource_type:'image',
   })
+  await incrementApiLimit(event.context.user.id)
   return finalImageUrl
 })

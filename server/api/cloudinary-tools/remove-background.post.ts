@@ -1,5 +1,5 @@
 import type { UploadApiResponse , UploadApiErrorResponse  } from 'cloudinary'
-// import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary'
+import { incrementApiLimit } from "~~/server/services/user-api-limit";
 import { connectCloudinary } from '~~/server/utils/cloudinary'
 
 export default defineEventHandler(async (event) => {
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
         uploadStream.end(buffer)
       })
   }
-  
   const result  = await uploadFromBuffer()
+  await incrementApiLimit(event.context.user.id)
   return result.secure_url
 })

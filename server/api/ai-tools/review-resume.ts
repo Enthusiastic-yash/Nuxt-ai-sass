@@ -1,7 +1,8 @@
 import { openai } from "~~/server/utils/openai";
 import { extractText, getDocumentProxy } from "unpdf";
+import { incrementApiLimit } from "~~/server/services/user-api-limit";
 
-export default defineEventHandler(async (event) =>{
+export default defineAuthenticatedEventHandler(async (event) =>{
   const formData = await readFormData(event)
   const file = formData.get('resume') as File
     if(!file){
@@ -34,6 +35,7 @@ export default defineEventHandler(async (event) =>{
     max_completion_tokens:3000
 
 });
+await incrementApiLimit(event.context.user.id)
 return response.choices[0].message.content;
 })
 

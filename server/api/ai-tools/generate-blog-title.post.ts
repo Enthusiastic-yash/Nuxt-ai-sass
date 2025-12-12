@@ -1,6 +1,7 @@
 import { openai } from "~~/server/utils/openai";
+import { incrementApiLimit } from "~~/server/services/user-api-limit";
 
-export default defineEventHandler(async (event) =>{
+export default defineAuthenticatedEventHandler(async (event) =>{
 
     const { blogTitle , blogCategory }  = await readBody(event)
     if(!(blogTitle && blogCategory)){
@@ -22,5 +23,6 @@ export default defineEventHandler(async (event) =>{
     max_completion_tokens : 500
 
 });
+await incrementApiLimit(event.context.user.id)
 return response.choices[0].message.content;
 })

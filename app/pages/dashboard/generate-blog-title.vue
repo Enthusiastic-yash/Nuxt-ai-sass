@@ -88,6 +88,7 @@ const generateArticle = async (event: FormSubmitEvent<Schema>) => {
             state.blogTitle = ""
             state.blogCategory = 'General'
         }
+        await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
         error.value = getError(err)

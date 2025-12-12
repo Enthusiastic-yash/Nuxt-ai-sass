@@ -1,7 +1,8 @@
 
+import { incrementApiLimit } from "~~/server/services/user-api-limit";
 import { openai } from "~~/server/utils/openai";
 
-export default defineEventHandler(async (event) =>{
+export default defineAuthenticatedEventHandler(async (event) =>{
     const { message }  = await readBody(event)
     if(!message){
         throw createError({
@@ -18,5 +19,6 @@ export default defineEventHandler(async (event) =>{
     temperature : 0.5
 
 });
+await incrementApiLimit(event.context.user.id)
 return response.choices[0].message.content;
 })

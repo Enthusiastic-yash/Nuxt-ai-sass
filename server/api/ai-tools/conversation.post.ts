@@ -1,6 +1,6 @@
 import { openai } from "~~/server/utils/openai";
-
-export default defineEventHandler(async (event) =>{
+import { incrementApiLimit } from "~~/server/services/user-api-limit";
+export default defineAuthenticatedEventHandler(async (event) =>{
     const { message }  = await readBody(event)
     if(!message){
         throw createError({
@@ -19,5 +19,6 @@ export default defineEventHandler(async (event) =>{
     max_completion_tokens : 500,
 
 });
+await incrementApiLimit(event.context.user.id)
 return response.choices[0].message.content;
 })

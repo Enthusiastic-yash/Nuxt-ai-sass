@@ -20,6 +20,8 @@
                                 </UNavigationMenu>
                             </div>
                         </div>
+                        <!-- user counter -->
+                        <UserCounter />
                     </div>
                 </template>
             </UDrawer>
