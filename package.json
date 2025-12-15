@@ -11,21 +11,22 @@
   },
   "dependencies": {
     "@antfu/eslint-config": "^6.2.0",
+    "@libsql/client": "^0.15.15",
     "@nuxt/eslint": "^1.10.0",
     "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.2.1",
     "@nuxtjs/mdc": "^0.19.1",
-    "@prisma/adapter-libsql": "^7.0.1",
-    "@prisma/client": "^7.0.1",
-    "@prisma/config": "^7.0.1",
+    "@polar-sh/better-auth": "^1.6.1",
+    "@polar-sh/sdk": "^0.41.5",
     "@vueuse/core": "^14.1.0",
     "@vueuse/nuxt": "^14.1.0",
     "better-auth": "^1.4.1",
     "cloudinary": "^2.8.0",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.41.0",
     "eslint": "^9.39.1",
     "nuxt": "^4.2.1",
     "openai": "^6.9.1",
-    "prisma": "^7.0.1",
     "typescript": "^5.9.3",
     "unpdf": "^1.4.0",
     "vue": "^3.5.24",
@@ -33,6 +34,8 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.79"
+    "@iconify-json/lucide": "^1.2.79",
+    "@types/node": "^25.0.2",
+    "drizzle-kit": "^0.31.8"
   }
 }

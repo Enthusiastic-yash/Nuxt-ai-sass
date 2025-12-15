@@ -20,9 +20,14 @@ export default defineNuxtConfig({
   cloudinaryCloudName:process.env.NUXT_CLOUDINARY_NAME,
   cloudinaryApiKey:process.env.NUXT_CLOUDINARY_API_KEY,
   cloudinaryApiSecret:process.env.NUXT_CLOUDINARY_API_SECRET,
+  polarAccessToken:process.env.NUXT_POLAR_ACCESS_TOKEN,
+  polarWebhookSecret:process.env.NUXT_POLAR_WEBHOOK_SECRET,
+  polarServer:process.env.NUXT_POLAR_SERVER,
+  polarProductId:process.env.NUXT_POLAR_PRODUCT_ID,
 
     public:{
       appEnv : process.env.NUXT_PUBLIC_APP_ENV
     }
-  }
+  },
+
 })

@@ -1,12 +1,16 @@
 import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prisma } from "../utils/prisma";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "~~/server/utils/drizzle";
+// import {setupPolar} from "~~/server/services/polar";
 import type {H3Event} from "h3"
+import { schema } from "~~/server/db/schema"
 
 const {gitHubClientId , gitHubclientSecret ,googleClientId , googleClientSecret } = useRuntimeConfig()
+
 export const auth = betterAuth({
-    database: prismaAdapter(prisma, {
-        provider: "sqlite",
+    database: drizzleAdapter(db, {
+      provider: "sqlite",
+       schema,
     }),
     emailAndPassword: { 
         enabled: true, 
@@ -31,6 +35,7 @@ export const auth = betterAuth({
       maxAge: 5 * 60, 
     },
   },
+ 
  },
 });
 

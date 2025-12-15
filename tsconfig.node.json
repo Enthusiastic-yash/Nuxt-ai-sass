@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "types": [
+            "node"
+        ],
+        "module": "ESNext",
+        "moduleResolution": "NodeNext",
+        "target": "ES2022",
+        "strict": false
+    },
+    "include": [
+        "drizzle.config.ts"
+    ]
+}

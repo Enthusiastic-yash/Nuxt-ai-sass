@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1765739455098,
+      "tag": "0000_flippant_lily_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1765794668648,
+      "tag": "0001_chilly_warbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1765794794270,
+      "tag": "0002_wet_the_call",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1765795414118,
+      "tag": "0003_medical_ted_forrester",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1765796495425,
+      "tag": "0004_elite_mulholland_black",
+      "breakpoints": true
+    }
+  ]
+}
