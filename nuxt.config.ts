@@ -24,7 +24,6 @@ export default defineNuxtConfig({
   polarWebhookSecret:process.env.NUXT_POLAR_WEBHOOK_SECRET,
   polarServer:process.env.NUXT_POLAR_SERVER,
   polarProductId:process.env.NUXT_POLAR_PRODUCT_ID,
-
     public:{
       appEnv : process.env.NUXT_PUBLIC_APP_ENV
     }

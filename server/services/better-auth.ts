@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "~~/server/utils/drizzle";
-// import {setupPolar} from "~~/server/services/polar";
+import { createPolarPlugin } from "./polar";
 import type {H3Event} from "h3"
 import { schema } from "~~/server/db/schema"
 
@@ -12,6 +12,9 @@ export const auth = betterAuth({
       provider: "sqlite",
        schema,
     }),
+      plugins:[
+   createPolarPlugin()
+    ],
     emailAndPassword: { 
         enabled: true, 
   }, 
@@ -35,6 +38,7 @@ export const auth = betterAuth({
       maxAge: 5 * 60, 
     },
   },
+
  
  },
 });

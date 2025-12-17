@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-auto">
+    <div v-if="status !== 'pending' && !isProUser" class="mt-auto">
         <u-separator></u-separator>
         <div class="px-3">
             <div class="py-6 px-2">
@@ -7,25 +7,23 @@
                     <p>{{ userData ? userData.userApiLimit : 0 }} / {{ maxCount }} Free Generations</p>
                     <u-progress v-model="progress"></u-progress>
                 </div>
-                <UButton icon="i-lucide-zap" color="error" class="w-full justify-center cursor-pointer">
+                <UButton icon="i-lucide-zap" color="error" class="w-full justify-center cursor-pointer"
+                    @click="upgradeToPro">
                     upgrade
                 </UButton>
             </div>
-
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { maxCount } from "~~/shared/utils/user-api-limit"
-
-
-
-
-
+const { upgradeToPro } = useAuth()
 const { data: userData, status } = useFetch('/api/user', {
     key: 'userData'
 })
+
+
 const progress = computed(() => {
     if (userData.value) {
         return (userData.value.userApiLimit / maxCount) * 100
@@ -33,6 +31,9 @@ const progress = computed(() => {
         return 0;
     }
 })
+
+const isProUser = computed(() => userData.value?.subscription)
+
 </script>
 
 <style scoped></style>

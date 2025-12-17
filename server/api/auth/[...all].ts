@@ -1,10 +1,7 @@
-import { auth } from "~~/server/services/better-auth";
+import { auth } from "~~/server/services/better-auth"; 
+import { defineEventHandler, toWebRequest } from "h3";
 
 export default defineEventHandler((event) => {
-    return auth.handler(toWebRequest(event));
+  return auth.handler(toWebRequest(event));
 });
-
-
-
-
 
