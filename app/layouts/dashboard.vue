@@ -10,6 +10,7 @@
             </div>
         </div>
     </div>
+    <pro-modal />
 </template>
 
 <script setup lang="ts">

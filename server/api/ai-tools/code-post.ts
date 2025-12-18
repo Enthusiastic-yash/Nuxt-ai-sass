@@ -1,6 +1,7 @@
 
 import { incrementApiLimit } from "~~/server/services/user-api-limit";
 import { openai } from "~~/server/utils/openai";
+import {validateUserStatus} from "~~/server/utils/validate-user"
 
 export default defineAuthenticatedEventHandler(async (event) =>{
     const { message }  = await readBody(event)
@@ -10,6 +11,9 @@ export default defineAuthenticatedEventHandler(async (event) =>{
             statusMessage:'Message is required.'
         })
     }
+
+    const isPro = await validateUserStatus(event.context.user.id)
+
     const response = await openai.chat.completions.create({
     model: "gemini-2.5-flash",
     messages: [
@@ -19,6 +23,8 @@ export default defineAuthenticatedEventHandler(async (event) =>{
     temperature : 0.5
 
 });
-await incrementApiLimit(event.context.user.id)
+if(!isPro){
+    await incrementApiLimit(event.context.user.id)
+}
 return response.choices[0].message.content;
 })

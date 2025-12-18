@@ -36,7 +36,6 @@ const isProUser = computed(() => userData.value?.subscription)
 
 const subscriptionMessage = computed(() => {
     const subscription = userData.value?.subscription;
-    console.log(subscription);
     if (!subscription) {
         return "You are currently on the **Free Plan**.";
     }

@@ -1,5 +1,6 @@
 import { openai } from "~~/server/utils/openai";
 import { incrementApiLimit } from "~~/server/services/user-api-limit";
+import {validateUserStatus} from "~~/server/utils/validate-user"
 
 export default defineAuthenticatedEventHandler(async (event) =>{
 
@@ -10,6 +11,7 @@ export default defineAuthenticatedEventHandler(async (event) =>{
             statusMessage:'Blog title and category required.'
         })
     }
+       const isPro = await validateUserStatus(event.context.user.id)
     const prompt = `Generate a blog title for the keywords  ${blogTitle} with in given category ${blogCategory}`
     const response = await openai.chat.completions.create({
     model: "gemini-2.5-flash",
@@ -23,6 +25,8 @@ export default defineAuthenticatedEventHandler(async (event) =>{
     max_completion_tokens : 500
 
 });
-await incrementApiLimit(event.context.user.id)
+if(!isPro){
+    await incrementApiLimit(event.context.user.id)
+}
 return response.choices[0].message.content;
 })

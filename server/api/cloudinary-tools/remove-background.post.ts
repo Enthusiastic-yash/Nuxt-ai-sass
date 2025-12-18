@@ -1,8 +1,9 @@
 import type { UploadApiResponse , UploadApiErrorResponse  } from 'cloudinary'
 import { incrementApiLimit } from "~~/server/services/user-api-limit";
 import { connectCloudinary } from '~~/server/utils/cloudinary'
+import {validateUserStatus} from "~~/server/utils/validate-user"
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const formData = await readFormData(event)
   const file = formData.get('image') as File | null
 
@@ -12,6 +13,8 @@ export default defineEventHandler(async (event) => {
       message: 'No image provided',
     })
   }
+
+      const isPro = await validateUserStatus(event.context.user.id)
 
   // File → Buffer conversion
   const arrayBuffer = await file.arrayBuffer()
@@ -38,6 +41,8 @@ export default defineEventHandler(async (event) => {
       })
   }
   const result  = await uploadFromBuffer()
-  await incrementApiLimit(event.context.user.id)
+ if(!isPro){
+    await incrementApiLimit(event.context.user.id)
+}
   return result.secure_url
 })

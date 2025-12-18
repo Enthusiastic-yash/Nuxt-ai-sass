@@ -3,8 +3,9 @@ import { effect } from 'vue'
 // import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary'
 import { incrementApiLimit } from "~~/server/services/user-api-limit";
 import { connectCloudinary } from '~~/server/utils/cloudinary'
+import {validateUserStatus} from "~~/server/utils/validate-user"
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const formData = await readFormData(event)
   const file = formData.get('image') as File | null
   const object = formData.get('object')
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
       message: 'No image provided',
     })
   }
-
+    const isPro = await validateUserStatus(event.context.user.id)
   // File → Buffer conversion
   const arrayBuffer = await file.arrayBuffer()
   const buffer = Buffer.from(arrayBuffer)
@@ -45,6 +46,8 @@ export default defineEventHandler(async (event) => {
        
     resource_type:'image',
   })
-  await incrementApiLimit(event.context.user.id)
+if(!isPro){
+    await incrementApiLimit(event.context.user.id)
+}
   return finalImageUrl
 })
