@@ -92,6 +92,9 @@ const generateArticle = async (event: FormSubmitEvent<Schema>) => {
         await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
+         if(err.statusCode === 401){
+            navigateTo('/auth/login')
+        }
          if(err.statusCode === 403){
             toggleModalState(true)
         }

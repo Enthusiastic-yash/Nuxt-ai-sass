@@ -46,6 +46,7 @@ definePageMeta({
 })
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+const {toggleModalState} = useProModal();
 
 const ACCEPTED_IMAGE_TYPES = ['application/pdf']
 
@@ -101,6 +102,12 @@ const onSubmit = async (event: FormSubmitEvent<schema>) => {
         await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
+         if(err.statusCode === 401){
+            navigateTo('/auth/login')
+        }
+         if(err.statusCode === 403){
+            toggleModalState(true)
+        }
         error.value = getError(err)
     } finally {
         isLoading.value = false

@@ -105,6 +105,9 @@ const sendMessage = async (event: FormSubmitEvent<Schema>) => {
         }
     } catch (e) {
         const err = e as FetchError
+         if(err.statusCode === 401){
+            navigateTo('/auth/login')
+        }
          if(err.statusCode === 403){
             toggleModalState(true)
         }
