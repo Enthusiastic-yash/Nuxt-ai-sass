@@ -54,6 +54,7 @@ definePageMeta({
     layout: 'dashboard'
 })
 
+const {toggleModalState} = useProModal();
 const { isCopied, copy } = useClipboard()
 
 const schema = z.object({
@@ -91,6 +92,9 @@ const generateArticle = async (event: FormSubmitEvent<Schema>) => {
         await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
+         if(err.statusCode === 403){
+            toggleModalState(true)
+        }
         error.value = getError(err)
     } finally {
         isLoading.value = false

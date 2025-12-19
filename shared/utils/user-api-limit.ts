@@ -1,1 +1,1 @@
-export const maxCount = 10;
+export const maxCount = 5;

@@ -64,6 +64,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { FetchError } from 'ofetch'
 
 const { copiedId, copy } = useClipboard()
+const {toggleModalState} = useProModal();
 definePageMeta({
     layout: 'dashboard'
 })
@@ -104,6 +105,9 @@ const sendMessage = async (event: FormSubmitEvent<Schema>) => {
         }
     } catch (e) {
         const err = e as FetchError
+         if(err.statusCode === 403){
+            toggleModalState(true)
+        }
         error.value = getError(err)
     } finally {
         isLoading.value = false

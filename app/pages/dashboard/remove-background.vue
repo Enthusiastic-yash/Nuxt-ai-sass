@@ -42,7 +42,7 @@ import type { FetchError } from 'ofetch'
 definePageMeta({
     layout: 'dashboard'
 })
-
+const {toggleModalState} = useProModal();
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
 const MIN_DIMENSIONS = { width: 200, height: 200 }
@@ -121,6 +121,9 @@ const onSubmit = async (event: FormSubmitEvent<schema>) => {
         await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
+          if(err.statusCode === 403){
+            toggleModalState(true)
+        }
         error.value = getError(err)
     } finally {
         isLoading.value = false

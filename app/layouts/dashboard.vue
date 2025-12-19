@@ -10,10 +10,12 @@
             </div>
         </div>
     </div>
-    <pro-modal />
+    <PopUp></PopUp>
 </template>
 
 <script setup lang="ts">
+
+
 
 
 </script>
