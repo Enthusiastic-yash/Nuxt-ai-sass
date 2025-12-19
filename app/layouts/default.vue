@@ -1,8 +1,12 @@
 <template>
     <div class="min-h-screen flex flex-col items-center relative">
         <!-- navbar -->
-        <nav>Nav bar</nav>
-        <div class="flex flex-1 pt-16 w-full">
+            <AppNavbar>
+                <template #right>
+                   <theme-toggler></theme-toggler>
+                </template>
+            </AppNavbar>
+        <div class="flex flex-1 pt-16 w-full justify-center">
             <slot />
         </div>
     </div>
