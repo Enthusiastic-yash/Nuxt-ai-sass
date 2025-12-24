@@ -58,6 +58,8 @@ definePageMeta({
     middleware:'guest'
 })
 
+const toast = useToast()
+
 const schema = z.object({
     email: z.email('Please enter a valid email address.'),
     password: z.string('Password is required').min(8, 'Must be at least 8 characters'),
@@ -72,12 +74,26 @@ const state = reactive<Partial<Schema>>({
 
 const { signIn } = useAuth()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const { error } = await signIn.email({
+    toast.clear()
+    const { error , data } = await signIn.email({
         email: event.data.email,
         password: event.data.password,
         callbackURL: '/dashboard'
     })
-    console.log(error);
+   if(data){
+    toast.add({
+            title:'success',
+            description: 'Logged in successfully',
+            color:'success'
+        })
+   }
+    if(error){
+        toast.add({
+            title:'error',
+            description: error?.message,
+            color:'error'
+        })
+    }
 }
 
 
