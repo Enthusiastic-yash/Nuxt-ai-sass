@@ -25,7 +25,8 @@
 import { aiTools } from '~~/constants/tools';
 
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard',
+    middleware: "auth"
 })
 </script>
 

@@ -25,14 +25,26 @@
                     </div>
                 </template>
             </UDrawer>
-            <UDropdownMenu :items="items" :content="{
+            <UDropdownMenu v-if="user" :items="items" :content="{
                 align: 'start',
                 side: 'bottom',
                 sideOffset: 8
             }" :ui="{
                 content: 'w-48'
             }">
-                <UButton label="Open" icon="i-lucide-menu" color="neutral" variant="outline" />
+                <UButton label="Open" :icon="!user?.image ? 'lucide-circle-user-round' : undefined" color="neutral" variant="outline">
+                    <UAvatar v-if="user && user.image"
+                    :src="user.image"
+                    :alt="user.name"
+                    size="sm"
+                    />
+                     <span>
+                           {{ user?.name }}
+                           <UBadge class="ml-2" v-if="userData && userData.subscription" label="Pro"/>
+                     </span>
+                   
+                </UButton>
+                  
             </UDropdownMenu>
             <ThemeToggler />
         </u-container>
@@ -42,8 +54,12 @@
 <script setup lang="ts">
 import { sideBarRoutes } from "~~/constants/tools"
 import type { DropdownMenuItem } from '@nuxt/ui'
+
 const open = ref(false)
-const { logout } = useAuth()
+const { logout , user } = useAuth()
+const { data: userData } = useFetch('/api/user', {
+    key: 'userData'
+})
 const items = ref<DropdownMenuItem[]>([
     {
         label: 'Profile',

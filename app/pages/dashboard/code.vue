@@ -66,7 +66,8 @@ const { copy, copiedId } = useClipboard()
 const {toggleModalState} = useProModal();
 
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard',
+     middleware: "auth"
 })
 const schema = z.object({
     userPrompt: z.string().min(1, 'Prompt is required')

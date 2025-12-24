@@ -42,7 +42,8 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { FetchError } from 'ofetch'
 
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard',
+     middleware: "auth"
 })
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
@@ -78,7 +79,6 @@ const state = reactive<Partial<schema>>({
     resume: undefined
 })
 
-console.log(state.resume);
 const content = ref("")
 const error = ref<AppError | null>()
 const isLoading = ref(false);

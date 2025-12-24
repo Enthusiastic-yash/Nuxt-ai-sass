@@ -25,7 +25,7 @@
                     </UCard>
                 </div>
                 <UCard v-if="mappedImageUrl && !isLoading" :ui="{ body: 'p-3 sm:p-3 h-full' }"
-                    class="flex-1 max-w-[300px] mt-4">
+                    class="flex-1 max-w-75 mt-4">
                     <div v-if="mappedImageUrl" class="h-full">
                         <NuxtImg :src="mappedImageUrl" />
                     </div>
@@ -44,7 +44,8 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { FetchError } from 'ofetch'
 
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard',
+     middleware: "auth"
 })
 const {toggleModalState} = useProModal();
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB

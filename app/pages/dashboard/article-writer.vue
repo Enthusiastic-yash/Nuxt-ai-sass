@@ -51,7 +51,8 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { FetchError } from 'ofetch'
 import { Content } from 'openai/resources/containers/files/content.mjs'
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard',
+     middleware: "auth"
 })
 
 const {toggleModalState} = useProModal();

@@ -10,11 +10,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <UButton icon="mdi:google" color="neutral" class="justify-center" :loading="false"
                                 :disabled="false" variant="outline"
-                                @click="signIn.social({ provider: 'google', callbackURL: '/' })">Google</UButton>
+                                @click="signIn.social({ provider: 'google', callbackURL: '/dashboard' })">Google</UButton>
 
                             <UButton icon="mdi:github" color="neutral" class="justify-center" :loading="false"
                                 :disabled="false" variant="outline"
-                                @click="signIn.social({ provider: 'github', callbackURL: '/' })">
+                                @click="signIn.social({ provider: 'github', callbackURL: '/dashboard' })">
                                 Github
                             </UButton>
                         </div>
@@ -53,6 +53,11 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+
+definePageMeta({
+    middleware:'guest'
+})
+
 const schema = z.object({
     email: z.email('Please enter a valid email address.'),
     password: z.string('Password is required').min(8, 'Must be at least 8 characters'),

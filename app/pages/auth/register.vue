@@ -10,11 +10,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <UButton icon="mdi:google" color="neutral" class="justify-center" :loading="false"
                                 :disabled="false" variant="outline"
-                                @click="signIn.social({ provider: 'google', callbackURL: '/' })">Google</UButton>
+                                @click="signIn.social({ provider: 'google', callbackURL: '/dashboard' })">Google</UButton>
 
                             <UButton icon="mdi:github" color="neutral" class="justify-center" :loading="false"
                                 :disabled="false" variant="outline"
-                                @click="signIn.social({ provider: 'github', callbackURL: '/' })">Github</UButton>
+                                @click="signIn.social({ provider: 'github', callbackURL: '/dashboard' })">Github</UButton>
                         </div>
                         <USeparator label="or" />
                         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -58,6 +58,11 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+
+definePageMeta({
+    middleware:'guest'
+})
+
 const schema = z.object({
     name: z.string().trim().min(3, "Name must be at least 3 characters long"),
     email: z.email('Please enter a valid email address.'),
