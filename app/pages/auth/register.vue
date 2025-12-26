@@ -10,11 +10,13 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <UButton icon="mdi:google" color="neutral" class="justify-center" :loading="false"
                                 :disabled="false" variant="outline"
-                                @click="signIn.social({ provider: 'google', callbackURL: '/dashboard' })">Google</UButton>
+                                @click="signIn.social({ provider: 'google', callbackURL: '/dashboard' })">Google
+                            </UButton>
 
                             <UButton icon="mdi:github" color="neutral" class="justify-center" :loading="false"
                                 :disabled="false" variant="outline"
-                                @click="signIn.social({ provider: 'github', callbackURL: '/dashboard' })">Github</UButton>
+                                @click="signIn.social({ provider: 'github', callbackURL: '/dashboard' })">Github
+                            </UButton>
                         </div>
                         <USeparator label="or" />
                         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -36,7 +38,7 @@
                             </UFormField>
 
 
-                            <UButton type="submit" color="primary" block>
+                            <UButton type="submit" color="primary" block :loading="isLoading">
                                 Submit
                             </UButton>
                             <div class="text-center text-sm">
@@ -60,9 +62,9 @@ import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 definePageMeta({
-    middleware:'guest'
+    middleware: 'guest'
 })
-
+const toast = useToast()
 const schema = z.object({
     name: z.string().trim().min(3, "Name must be at least 3 characters long"),
     email: z.email('Please enter a valid email address.'),
@@ -82,6 +84,8 @@ const state = reactive<Partial<Schema>>({
     confirmPassword: ''
 })
 
+const isLoading = ref(false)
+
 const { signUp, signIn } = useAuth()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const { error } = await signUp.email({
@@ -89,8 +93,26 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         email: event.data.email,
         password: event.data.password,
         callbackURL: '/dashboard'
+    }, {
+        onRequest: (ctx) => {
+           isLoading.value = true;
+        },
+        onSuccess: (ctx) => {
+           toast.add({
+            title:'success',
+            description: 'Account created successfully',
+            color:'success'
+        })
+       navigateTo('/dashboard')  
+        },
+        onError: (ctx) => {
+            toast.add({
+                title: 'error',
+                description: ctx.error.message,
+                color: 'error'
+            })
+        },
     })
-    console.log(error);
 }
 
 
