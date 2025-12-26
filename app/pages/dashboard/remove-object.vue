@@ -28,6 +28,12 @@
                     class="flex-1 max-w-75 mt-4">
                     <div v-if="mappedImageUrl" class="h-full">
                         <NuxtImg :src="mappedImageUrl" />
+                         <UButton  size="sm" @click="downloadProcessedImage"
+                               class="flex mt-2 w-full justify-center cursor-pointer group-hover:opacity-100 transition-opacity duration-200"
+                               variant="soft" color="primary"
+                               :icon="'lucide:arrow-down'">
+                               Download Image
+                           </UButton>
                     </div>
                 </UCard>
                 <div v-if="isLoading" class="flex items-start space-x-2">
@@ -48,6 +54,7 @@ definePageMeta({
      middleware: "auth"
 })
 const {toggleModalState} = useProModal();
+const { downloadFile } = useDownloader();
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
 const MIN_DIMENSIONS = { width: 200, height: 200 }
 const MAX_DIMENSIONS = { width: 4096, height: 4096 }
@@ -139,6 +146,12 @@ const onSubmit = async (event: FormSubmitEvent<schema>) => {
         isLoading.value = false
     }
 }
+
+const downloadProcessedImage = () => {
+    if (mappedImageUrl.value) {
+        downloadFile(mappedImageUrl.value, 'Object-removed-image.png');
+    }
+};
 
 </script>
 

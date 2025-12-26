@@ -23,7 +23,13 @@
                 <UCard v-if="mappedImageUrl && !isLoading" :ui="{ body: 'p-3 sm:p-3 h-full' }"
                     class="flex-1 max-w-75  relative group">
                     <div v-if="mappedImageUrl" class="h-full">
-                        <NuxtImg :src="mappedImageUrl" />
+                        <NuxtImg :src="mappedImageUrl"/>
+                        <UButton size="sm" @click="downloadProcessedImage"
+                               class="flex mt-2 w-full justify-center cursor-pointer group-hover:opacity-100 transition-opacity duration-200"
+                               variant="soft" color="primary"
+                               :icon="'lucide:arrow-down'">
+                               Download Image
+                           </UButton>
                     </div>
                 </UCard>
                 <div v-if="isLoading" class="flex items-start space-x-2">
@@ -103,7 +109,7 @@ const state = reactive<Partial<schema>>({
 const mappedImageUrl = ref("")
 const error = ref<AppError | null>()
 const isLoading = ref(false);
-
+const { downloadFile } = useDownloader();
 const onSubmit = async (event: FormSubmitEvent<schema>) => {
     try {
         const formData = new FormData();
@@ -133,6 +139,12 @@ const onSubmit = async (event: FormSubmitEvent<schema>) => {
         isLoading.value = false
     }
 }
+
+const downloadProcessedImage = () => {
+    if (mappedImageUrl.value) {
+        downloadFile(mappedImageUrl.value, 'background-removed-image.png');
+    }
+};
 
 </script>
 
