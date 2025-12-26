@@ -44,11 +44,13 @@
             <!-- chat input -->
             <div class="pt-4">
                 <UForm @submit="sendMessage" :schema="schema" :state="state" class="space-y-4">
-                    <div class="flex space-x-2 w-full">
-                        <UFormField class="flex-1" name="userPrompt">
-                            <U-textarea v-model="state.userPrompt" :rows="1" class="w-full" placeholder="Ask anything"
-                                autoresize></U-textarea>
-                        </UFormField>
+                    <div class="flex items-start">
+                        <div class="flex space-x-2 w-full">
+                            <UFormField class="flex-1 pr-2" name="userPrompt">
+                                <U-textarea @keydown.prevent.enter.exact="sendMessage({data:state} as FormSubmitEvent<Schema>)" v-model="state.userPrompt" :rows="1" class="w-full" placeholder="Ask anything"
+                                    autoresize></U-textarea>
+                            </UFormField>
+                        </div>
                         <UButton type="submit" icon="lucide-arrow-right" color="primary">
                         </UButton>
                     </div>
@@ -82,13 +84,14 @@ const state = reactive<Schema>({
 const error = ref<AppError | null>()
 const isLoading = ref(false);
 const sendMessage = async (event: FormSubmitEvent<Schema>) => {
+  
     try {
         isLoading.value = true
         messages.value.push({
             role: 'user',
             content: event.data.userPrompt.trim()
         })
-
+        state.userPrompt = ""
         const data = await $fetch('/api/ai-tools/conversation', {
             method: 'POST',
             body: {
@@ -102,7 +105,6 @@ const sendMessage = async (event: FormSubmitEvent<Schema>) => {
                 content: data
             })
             await refreshNuxtData('userData')
-            state.userPrompt = ""
         }
     } catch (e) {
         const err = e as FetchError

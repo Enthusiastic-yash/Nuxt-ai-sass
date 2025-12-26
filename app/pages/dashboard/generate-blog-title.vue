@@ -13,7 +13,9 @@
                     <UCard>
                         <UForm :schema="schema" :state="state" class="space-y-4" @submit="generateArticle">
                             <UFormField name="blogTitle" label="Blog Title">
-                                <UInput v-model="state.blogTitle" class="w-full"></UInput>
+                                <UInput
+                                    @keydown.prevent.enter.exact="generateArticle({ data: state } as FormSubmitEvent<Schema>)"
+                                    v-model="state.blogTitle" class="w-full"></UInput>
                             </UFormField>
                             <UFormField name="blogCategory" label="Blog Type">
                                 <USelect v-model="state.blogCategory" :items="blogCategories" class="w-full"></USelect>
@@ -52,10 +54,10 @@ import type { FetchError } from 'ofetch'
 import { Content } from 'openai/resources/containers/files/content.mjs'
 definePageMeta({
     layout: 'dashboard',
-     middleware: "auth"
+    middleware: "auth"
 })
 
-const {toggleModalState} = useProModal();
+const { toggleModalState } = useProModal();
 const { isCopied, copy } = useClipboard()
 
 const schema = z.object({
@@ -77,6 +79,8 @@ const isLoading = ref(false);
 const generateArticle = async (event: FormSubmitEvent<Schema>) => {
     try {
         isLoading.value = true
+        state.blogTitle = ""
+        state.blogCategory = 'General'
         const data = await $fetch('/api/ai-tools/generate-blog-title', {
             method: 'POST',
             body: {
@@ -87,16 +91,14 @@ const generateArticle = async (event: FormSubmitEvent<Schema>) => {
 
         if (data) {
             content.value = data
-            state.blogTitle = ""
-            state.blogCategory = 'General'
         }
         await refreshNuxtData('userData')
     } catch (e) {
         const err = e as FetchError
-         if(err.statusCode === 401){
+        if (err.statusCode === 401) {
             navigateTo('/auth/login')
         }
-         if(err.statusCode === 403){
+        if (err.statusCode === 403) {
             toggleModalState(true)
         }
         error.value = getError(err)

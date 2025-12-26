@@ -13,7 +13,7 @@
                     <UCard>
                         <UForm :schema="schema" :state="state" class="space-y-4" @submit="generateArticle">
                             <UFormField name="articleTitle" label="Article Title">
-                                <UInput v-model="state.articleTitle" class="w-full"></UInput>
+                                <UInput @keydown.prevent.enter.exact="generateArticle({data:state} as FormSubmitEvent<Schema>)" v-model="state.articleTitle" class="w-full"></UInput>
                             </UFormField>
                             <UFormField name="articleLength" label="Article Length">
                                 <USelect v-model="state.articleLength" :items="articleItems" class="w-full"></USelect>
@@ -77,18 +77,18 @@ const isLoading = ref(false);
 const generateArticle = async (event: FormSubmitEvent<Schema>) => {
     try {
         isLoading.value = true
-        const data = await $fetch('/api/ai-tools/generate-article', {
+        state.articleTitle = ""
+        state.articleLength = 500
+        const contentData = await $fetch('/api/ai-tools/generate-article', {
             method: 'POST',
             body: {
-                articleTitle: event.data.articleTitle,
-                articleLength: event.data.articleLength
+                articleTitle: event?.data.articleTitle,
+                articleLength: event?.data.articleLength
             }
         })
 
-        if (data) {
-            content.value = data
-            state.articleTitle = ""
-            state.articleLength = 500
+        if (contentData) {
+            content.value = contentData
         }
         await refreshNuxtData('userData')
     } catch (e) {
@@ -104,6 +104,7 @@ const generateArticle = async (event: FormSubmitEvent<Schema>) => {
         isLoading.value = false
     }
 }
+
 
 const articleItems = ref([
     {

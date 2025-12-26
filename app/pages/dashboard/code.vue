@@ -43,11 +43,14 @@
             <!-- chat input -->
             <div class="pt-4">
                 <UForm @submit="sendMessage" :schema="schema" :state="state" class="space-y-4">
-                    <div class="flex space-x-2 w-full">
-                        <UFormField class="flex-1" name="userPrompt">
-                            <U-textarea v-model="state.userPrompt" :rows="1" class="w-full" placeholder="Ask anything"
-                                autoresize></U-textarea>
-                        </UFormField>
+                    <div class="flex items-start">
+
+                        <div class="flex space-x-2 w-full">
+                            <UFormField class="flex-1 pr-2" name="userPrompt">
+                                <U-textarea @keydown.prevent.enter.exact="sendMessage({data:state} as FormSubmitEvent<Schema>)" v-model="state.userPrompt" :rows="1" class="w-full" placeholder="Ask anything"
+                                    autoresize></U-textarea>
+                            </UFormField>
+                        </div>
                         <UButton type="submit" icon="lucide-arrow-right" color="primary">
                         </UButton>
                     </div>
@@ -86,23 +89,22 @@ const sendMessage = async (event: FormSubmitEvent<Schema>) => {
         isLoading.value = true
         messages.value.push({
             role: 'user',
-            content: event.data.userPrompt.trim()
+            content: event?.data.userPrompt.trim()
         })
-
-        const data = await $fetch('/api/ai-tools/code-post', {
+        state.userPrompt = ""
+        const contentData = await $fetch('/api/ai-tools/code-post', {
             method: 'POST',
             body: {
                 message: messages.value
             }
         })
 
-        if (data) {
+        if (contentData) {
             messages.value.push({
                 role: 'system',
-                content: data
+                content: contentData
             })
             await refreshNuxtData('userData')
-            state.userPrompt = ""
         }
     } catch (e) {
         const err = e as FetchError
