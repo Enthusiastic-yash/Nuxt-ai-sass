@@ -13,12 +13,12 @@ export default defineAuthenticatedEventHandler(async (event) =>{
     const response = await openai.chat.completions.create({
     model: "gemini-2.5-flash",
    messages: [
-        { role: "system", content: "You are a helpful assistant." },
+        { role: "system", content: "You are a friendly, highly knowledgeable, and creative general-purpose conversational AI assistant. Respond thoughtfully and provide clear, complete answers." },
            ...message
     
     ],
     temperature : 0.5,
-    max_completion_tokens : 500,
+    max_completion_tokens : 1000,
 
 });
 if(!isPro){
