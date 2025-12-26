@@ -27,8 +27,8 @@
                 <UCard v-if="mappedImageUrl && !isLoading" :ui="{ body: 'p-3 sm:p-3 h-full' }"
                     class="flex-1 max-w-75 mt-4">
                     <div v-if="mappedImageUrl" class="h-full">
-                        <NuxtImg :src="mappedImageUrl" />
-                         <UButton  size="sm" @click="downloadProcessedImage"
+                        <NuxtImg :src="mappedImageUrl" @load="isImageLoaded" />
+                         <UButton v-if="isImageLoad" size="sm" @click="downloadProcessedImage"
                                class="flex mt-2 w-full justify-center cursor-pointer group-hover:opacity-100 transition-opacity duration-200"
                                variant="soft" color="primary"
                                :icon="'lucide:arrow-down'">
@@ -36,7 +36,7 @@
                            </UButton>
                     </div>
                 </UCard>
-                <div v-if="isLoading" class="flex items-start space-x-2">
+                <div v-if="isLoading && !isImageLoad" class="flex items-start space-x-2">
                     <USkeleton class="h-10 w-md rounded-sm" />
                 </div>
             </div>
@@ -115,6 +115,7 @@ const state = reactive<Partial<schema>>({
 const mappedImageUrl = ref("")
 const error = ref<AppError | null>()
 const isLoading = ref(false);
+const isImageLoad = ref(false)
 
 const onSubmit = async (event: FormSubmitEvent<schema>) => {
     const formData = new FormData()
@@ -152,6 +153,10 @@ const downloadProcessedImage = () => {
         downloadFile(mappedImageUrl.value, 'Object-removed-image.png');
     }
 };
+
+const isImageLoaded = async() =>{
+        isImageLoad.value = true
+}
 
 </script>
 
