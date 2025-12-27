@@ -68,8 +68,8 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
-    email: '',
-    password: '',
+    email: 'demo@gmail.com',
+    password: 'demo1234',
 })
 
 const { signIn } = useAuth()
